@@ -34,7 +34,8 @@ archives:
         format: zip
 npms:
   - id: npm
-    name: test-goreleaser-npm-trusted
+    ids: [default]
+    name: "@frenchi/test-goreleaser-npm-trusted"
     description: Test GoReleaser + npm Trusted Publishing.
     license: MIT
     author: "FR <dev@example.com>"

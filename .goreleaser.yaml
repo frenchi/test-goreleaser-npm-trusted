@@ -47,3 +47,4 @@ npms:
       - oidc
     access: public
     format: tgz
+    url_template: "https://github.com/frenchi/test-goreleaser-npm-trusted/releases/download/{{ .Tag }}/{{ .ArtifactName }}"

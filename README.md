@@ -30,10 +30,10 @@ Control runs: for each tag above, also cut a matching `-control` tag (e.g., `v0.
 
 | Tag    | Expected outcome                                                     | Control run                                                                                             | Observed outcome | Test passed? |
 | ------ | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------- | ------------ |
-| v0.0.1 | Publish fails with ENEEDAUTH (no auth provided).                     | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17902305355/job/50897305627) |                  |              |
-| v0.0.2 | Publish succeeds via token (baseline).                               |                                                                                                         |                  |              |
-| v0.0.3 | 403 error: 2FA required but an automation token was specified.       |                                                                                                         |                  |              |
-| v0.0.4 | Publish succeeds; provenance shown for public repo + public package. |                                                                                                         |                  |              |
+| v0.0.1 | Publish fails with ENEEDAUTH (no auth provided).                     | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17902305355/job/50897305627) | [logs]()         |              |
+| v0.0.2 | Publish succeeds via token (baseline).                               | [logs]()                                                                                                | [logs]()         |              |
+| v0.0.3 | 403 error: 2FA required but an automation token was specified.       | [logs]()                                                                                                | [logs]()         |              |
+| v0.0.4 | Publish succeeds; provenance shown for public repo + public package. | [logs]()                                                                                                | [logs]()         |              |
 
 ## Diagnostics (if ENEEDAUTH)
 

@@ -61,6 +61,10 @@ jobs:
         if: ${{ (github.ref_name == 'v0.0.1-goreleaser' || github.ref_name == 'v0.0.4-goreleaser') }}
         run: echo "NODE_AUTH_TOKEN=" >> $GITHUB_ENV
 
+      # npm requires a dist-tag when publishing a prerelease version (e.g., 0.0.2-goreleaser)
+      - name: Set npm dist-tag for prerelease version
+        run: echo "NPM_CONFIG_TAG=goreleaser" >> $GITHUB_ENV
+
       - name: npm whoami (expect no OIDC)
         run: npm whoami || true
 

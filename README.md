@@ -4,6 +4,7 @@ Testing for [Goreleaser-pro Issue #33](https://github.com/goreleaser/goreleaser-
 
 ## Preconditions
 
+- valid `GORELEASER_KEY` set in all cases
 - For base case (`v0.0.1`) no token or OIDC configuration exists, expect failure.
 - For standard publishing flow (`v0.0.2` & `v0.0.3`) `NPM_TOKEN` exists with package publishing permissions.
 - For OIDC scenario (`v0.0.4`): remove `NODE_AUTH_TOKEN` or `NPM_TOKEN` from the github environment secrets. NPM Trusted Publishers configured for the repo.

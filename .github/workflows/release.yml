@@ -1,0 +1,62 @@
+name: goreleaser
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Set up Node for npm Trusted Publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Ensure latest npm (>= 11.5.1)
+        run: npm install -g npm@latest
+
+      - name: Toolchain info
+        run: |
+          node --version
+          npm --version
+          npm config get registry
+          npm config set loglevel silly
+
+      - name: Mask potential tokens
+        run: |
+          echo "::add-mask::${NODE_AUTH_TOKEN}"
+          echo "::add-mask::${NPM_TOKEN}"
+
+      - name: Env snapshot (sanitized)
+        run: |
+          printenv | sort | sed -E 's/(NODE_AUTH_TOKEN|NPM_TOKEN)=.*/\1=REDACTED/g'
+
+      - name: npm whoami (expect no OIDC)
+        run: npm whoami || true
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser-pro
+          version: "~> v2"
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_LOGLEVEL: silly

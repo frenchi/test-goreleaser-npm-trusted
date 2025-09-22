@@ -1,0 +1,21 @@
+# Go
+bin/
+dist/
+build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# IDE
+.idea/
+.vscode/
+
+

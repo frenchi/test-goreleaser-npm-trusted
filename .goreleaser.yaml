@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+
+version: 2
+
+project_name: test-goreleaser-npm-trusted
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: cli
+    main: ./cmd/test-goreleaser-npm-trusted/main.go
+    binary: test-goreleaser-npm-trusted
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+archives:
+  - id: default
+    builds:
+      - cli
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+npms:
+  - id: npm
+    name: test-goreleaser-npm-trusted
+    description: Test GoReleaser + npm Trusted Publishing.
+    license: MIT
+    author: "FR <dev@example.com>"
+    repository: https://github.com/frenchi/test-goreleaser-npm-trusted
+    bugs: https://github.com/frenchi/test-goreleaser-npm-trusted/issues
+    keywords:
+      - cli
+      - goreleaser
+      - npm
+      - oidc
+    access: public
+    format: tgz

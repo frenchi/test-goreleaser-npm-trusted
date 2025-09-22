@@ -1,0 +1,58 @@
+name: control-publish
+
+on:
+  push:
+    tags:
+      - "v*-control"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node for npm Trusted Publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Ensure latest npm (>= 11.5.1)
+        run: npm install -g npm@latest
+
+      - name: Toolchain info
+        run: |
+          node --version
+          npm --version
+          npm config get registry
+          npm config set loglevel silly
+
+      - name: Mask potential tokens
+        run: |
+          echo "::add-mask::${NODE_AUTH_TOKEN}"
+          echo "::add-mask::${NPM_TOKEN}"
+
+      - name: Env snapshot (sanitized)
+        run: |
+          printenv | sort | sed -E 's/(NODE_AUTH_TOKEN|NPM_TOKEN)=.*/\1=REDACTED/g'
+
+      - name: Use control dist-tag
+        run: echo "NPM_CONFIG_TAG=control" >> $GITHUB_ENV
+
+      - name: Build minimal control package and publish
+        run: |
+          rm -rf control-pkg
+          mkdir -p control-pkg
+          cd control-pkg
+          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${VERSION%-control}"
+          printf '{\n  "name": "@frenchi/test-goreleaser-npm-trusted-control",\n  "version": "%s",\n  "description": "control path publish",\n  "publishConfig": { "access": "public" }\n}\n' "$VERSION" > package.json
+          echo 'control' > index.txt
+          npm publish --access public

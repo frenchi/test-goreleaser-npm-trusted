@@ -16,11 +16,8 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - darwin
-      - windows
     goarch:
       - amd64
-      - arm64
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 
@@ -29,9 +26,6 @@ archives:
     builds:
       - cli
     format: tar.gz
-    format_overrides:
-      - goos: windows
-        format: zip
 npms:
   - id: npm
     ids: [default]
@@ -47,5 +41,5 @@ npms:
       - npm
       - oidc
     access: public
-    format: tgz
+    format: tar.gz
     url_template: "https://github.com/frenchi/test-goreleaser-npm-trusted/releases/download/{{ .Tag }}/{{ .ArtifactName }}"

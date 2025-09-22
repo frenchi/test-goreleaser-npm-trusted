@@ -23,12 +23,13 @@ builds:
 
 archives:
   - id: default
-    builds:
+    ids:
       - cli
-    format: tar.gz
+    formats:
+      - tar.gz
+
 npms:
   - id: npm
-    ids: [default]
     name: "@frenchi/test-goreleaser-npm-trusted"
     description: Test GoReleaser + npm Trusted Publishing.
     license: MIT

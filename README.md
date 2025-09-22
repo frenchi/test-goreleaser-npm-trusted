@@ -33,7 +33,9 @@ Control runs: for each tag above, also cut a matching `-control` tag (e.g., `v0.
 | v0.0.1 | Publish fails with ENEEDAUTH (no auth provided).                                         | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17902305355/job/50897305627) | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17902821877/job/50898605291) | ✅           |
 | v0.0.2 | Publish succeeds via token (baseline).                                                   | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903146406)                 | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903373304/job/50900148300) | ✅           |
 | v0.0.3 | 403 error: 2FA required but an automation token was specified, and no Trusted Publishing | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903562298)                 | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903562329/job/50900839382) | ✅           |
-| v0.0.4 | Publish succeeds; provenance shown for public repo + public package.                     | [logs]()                                                                                                | [logs]()                                                                                                |              |
+| v0.0.4 | Publish succeeds; provenance shown for public repo + public package.                     | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903842964/job/50901612810) | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903685543/job/50901169457) | ✅           |
+
+Successfully published: https://www.npmjs.com/package/@frenchi/test-goreleaser-npm-trusted/v/0.0.4-goreleaser
 
 ## References
 

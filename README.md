@@ -17,12 +17,13 @@ from: https://www.npmjs.com/package/@frenchi/test-goreleaser-npm-trusted/access
 
 Run a tag-triggered release for each scenario and capture logs.
 
-| Tag    | Scenario                                                           | NPM_TOKEN | Publishing access (package setting)                                         | Setup (summary)                                                              |
-| ------ | ------------------------------------------------------------------ | --------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| v0.0.1 | Any; no token (standard flow)                                      | No        | Any                                                                         | Do not set `NPM_TOKEN`.                                                      |
-| v0.0.2 | Tokens allowed; automation token present                           | Yes       | Require two-factor authentication or an automation or granular access token | Package allows tokens; export an automation token (e.g., `NPM_TOKEN`).       |
-| v0.0.3 | Tokens disallowed; automation token present; No Trusted Publishing | Yes       | Require two-factor authentication and disallow tokens (recommended)         | Package: Require 2FA and disallow tokens; keep `NPM_TOKEN` set.              |
-| v0.0.4 | Tokens disallowed; no token (OIDC)                                 | No        | Require two-factor authentication and disallow tokens (recommended)         | Remove token envs; rely on OIDC; ensure preconditions and Trusted Publisher. |
+| Tag    | Scenario                                                           | NPM_TOKEN | Publishing access (package setting)                                         | Setup (summary)                                                                     |
+| ------ | ------------------------------------------------------------------ | --------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| v0.0.1 | Any; no token (standard flow)                                      | No        | Any                                                                         | Do not set `NPM_TOKEN`.                                                             |
+| v0.0.2 | Tokens allowed; automation token present                           | Yes       | Require two-factor authentication or an automation or granular access token | Package allows tokens; export an automation token (e.g., `NPM_TOKEN`).              |
+| v0.0.3 | Tokens disallowed; automation token present; No Trusted Publishing | Yes       | Require two-factor authentication and disallow tokens (recommended)         | Package: Require 2FA and disallow tokens; keep `NPM_TOKEN` set.                     |
+| v0.0.4 | Tokens disallowed; no token via filters (OIDC)                     | No\*      | Require two-factor authentication and disallow tokens (recommended)         | Add token filters in yml; rely on OIDC; ensure preconditions and Trusted Publisher. |
+| v0.0.5 | Tokens disallowed; no token, `NPM_TOKEN` deleted (OIDC)            | No        | Require two-factor authentication and disallow tokens (recommended)         | Remove token envs; rely on OIDC; ensure preconditions and Trusted Publisher.        |
 
 Control runs: for each tag above, also cut a matching `-control` tag (e.g., `v0.0.1-control`) to trigger a direct npm publish via `control.yml`. For GoReleaser runs, cut matching `-goreleaser` tags trigger the testing workflow: release.yml
 
@@ -34,6 +35,7 @@ Control runs: for each tag above, also cut a matching `-control` tag (e.g., `v0.
 | v0.0.2 | Publish succeeds via token (baseline).                                                   | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903146406)                 | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903373304/job/50900148300) | ✅           |
 | v0.0.3 | 403 error: 2FA required but an automation token was specified, and no Trusted Publishing | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903562298)                 | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903562329/job/50900839382) | ✅           |
 | v0.0.4 | Publish succeeds; provenance shown for public repo + public package.                     | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903842964/job/50901612810) | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17903685543/job/50901169457) | ✅           |
+| v0.0.5 | Publish succeeds; provenance shown for public repo + public package.                     | [logs]()                                                                                                | [logs]()                                                                                                |              |
 
 Successfully published: https://www.npmjs.com/package/@frenchi/test-goreleaser-npm-trusted/v/0.0.4-goreleaser
 

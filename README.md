@@ -17,12 +17,23 @@ from: https://www.npmjs.com/package/@frenchi/test-goreleaser-npm-trusted/access
 
 Run a tag-triggered release for each scenario and capture logs.
 
-| Tag    | Scenario                                    | NPM_TOKEN | Publishing access (package setting)                                         | Setup (summary)                                                              | Expected outcome                                                     | Observed outcome | Test passed? |
-| ------ | ------------------------------------------- | --------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------- | ------------ |
-| v0.0.1 | Any; no token (standard flow)               | No        | Any                                                                         | Do not set `NPM_TOKEN`.                                                      | Publish fails with ENEEDAUTH (no auth provided).                     |                  |              |
-| v0.0.2 | Tokens allowed; automation token present    | Yes       | Require two-factor authentication or an automation or granular access token | Package allows tokens; export an automation token (e.g., `NPM_TOKEN`).       | Publish succeeds via token (baseline).                               |                  |              |
-| v0.0.3 | Tokens disallowed; automation token present | Yes       | Require two-factor authentication and disallow tokens (recommended)         | Package: Require 2FA and disallow tokens; keep `NPM_TOKEN` set.              | 403 error: 2FA required but an automation token was specified.       |                  |              |
-| v0.0.4 | Tokens disallowed; no token (OIDC)          | No        | Require two-factor authentication and disallow tokens (recommended)         | Remove token envs; rely on OIDC; ensure preconditions and Trusted Publisher. | Publish succeeds; provenance shown for public repo + public package. |                  |              |
+| Tag    | Scenario                                    | NPM_TOKEN | Publishing access (package setting)                                         | Setup (summary)                                                              |
+| ------ | ------------------------------------------- | --------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| v0.0.1 | Any; no token (standard flow)               | No        | Any                                                                         | Do not set `NPM_TOKEN`.                                                      |
+| v0.0.2 | Tokens allowed; automation token present    | Yes       | Require two-factor authentication or an automation or granular access token | Package allows tokens; export an automation token (e.g., `NPM_TOKEN`).       |
+| v0.0.3 | Tokens disallowed; automation token present | Yes       | Require two-factor authentication and disallow tokens (recommended)         | Package: Require 2FA and disallow tokens; keep `NPM_TOKEN` set.              |
+| v0.0.4 | Tokens disallowed; no token (OIDC)          | No        | Require two-factor authentication and disallow tokens (recommended)         | Remove token envs; rely on OIDC; ensure preconditions and Trusted Publisher. |
+
+Control runs: for each tag above, also cut a matching `-control` tag (e.g., `v0.0.1-control`) to trigger a direct npm publish via `control.yml`. For GoReleaser runs, cut matching `-goreleaser` tags trigger the testing workflow: release.yml
+
+## Results
+
+| Tag    | Expected outcome                                                     | Control run                                                                                             | Observed outcome | Test passed? |
+| ------ | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------- | ------------ |
+| v0.0.1 | Publish fails with ENEEDAUTH (no auth provided).                     | [logs](https://github.com/frenchi/test-goreleaser-npm-trusted/actions/runs/17902305355/job/50897305627) |                  |              |
+| v0.0.2 | Publish succeeds via token (baseline).                               |                                                                                                         |                  |              |
+| v0.0.3 | 403 error: 2FA required but an automation token was specified.       |                                                                                                         |                  |              |
+| v0.0.4 | Publish succeeds; provenance shown for public repo + public package. |                                                                                                         |                  |              |
 
 ## Diagnostics (if ENEEDAUTH)
 

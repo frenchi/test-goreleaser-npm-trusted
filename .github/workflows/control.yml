@@ -62,6 +62,14 @@ jobs:
           cd control-pkg
           VERSION="${GITHUB_REF_NAME#v}"
           VERSION="${VERSION%-control}"
-          printf '{\n  "name": "@frenchi/test-goreleaser-npm-trusted-control",\n  "version": "%s",\n  "description": "control path publish",\n  "publishConfig": { "access": "public" }\n}\n' "$VERSION" > package.json
+          printf '{\n'
+          printf '  "name": "@frenchi/test-goreleaser-npm-trusted-control",\n'
+          printf '  "version": "%s",\n' "$VERSION"
+          printf '  "description": "control path publish",\n'
+          printf '  "repository": { "type": "git", "url": "https://github.com/frenchi/test-goreleaser-npm-trusted" },\n'
+          printf '  "bugs": { "url": "https://github.com/frenchi/test-goreleaser-npm-trusted/issues" },\n'
+          printf '  "homepage": "https://github.com/frenchi/test-goreleaser-npm-trusted#readme",\n'
+          printf '  "publishConfig": { "access": "public" }\n'
+          printf '}\n' > package.json
           echo 'control' > index.txt
           npm publish --access public
